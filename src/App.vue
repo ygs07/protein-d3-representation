@@ -1,4 +1,4 @@
-<script setup>
+ <script setup>
 import NetworkGraph from "./components/NetworkGraph.vue";
 
 const demoPoints = [
@@ -72,21 +72,56 @@ const links = [
 ];
 
 import protein_data from "../data/protein_data.json";
+import residue_data from "../data/residue_data.json";
+
+// Transform the protein_data to match the expected edge format
+const edgeData = protein_data.map((edge) => ({
+  res1: edge.res1,
+  res2: edge.res2,
+  distance: edge.distance,
+}));
+
+// Transform the residue_data to match the expected node format
+const nodeData = residue_data.map((node) => ({
+  Residue: node.Residue,
+  CombinedScore: node.CombinedScore,
+  Degree: node.Degree,
+  Strength: node.Strength,
+  Betweenness: node.Betweenness,
+  pLDDT: node.pLDDT,
+  Resname: node.Resname,
+  // Include any other properties you want to use
+  ...node,
+}));
 </script>
 
 <template>
-  <NetworkGraph
-    :width="600"
-    :height="600"
-    :nodes="nodes"
-    :links="links"
-    :json-data="protein_data"
-  />
-
-  <div style="margin-top: 24px">
-    <!--    <NetworkGraph ref="graph" />-->
-    <!--    <Graph :width="420" :height="260" :points="demoPoints" background="#fafafa" />-->
+  <div style="display: flex; flex-direction: column; gap: 24px; padding: 20px">
+    <div>
+      <h3>Protein Residue Network (CombinedScore Coloring)</h3>
+      <NetworkGraph
+        :width="800"
+        :height="600"
+        :edge-data="edgeData"
+        :node-data="nodeData"
+        :distance-threshold="8"
+        background="#ffffff"
+      />
+    </div>
   </div>
 </template>
 
+<style>
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: #f1f5f9;
+}
 
+h3 {
+  margin: 0 0 12px 0;
+  color: #1e293b;
+  font-weight: 600;
+}
+</style>
