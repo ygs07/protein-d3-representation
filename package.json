@@ -1,6 +1,6 @@
 {
   "name": "vue-protein-network-visualizer",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "A Vue 3 component for interactive protein residue network visualization with D3.js",
   "type": "module",
   "main": "./dist/vue-protein-network-visualizer.umd.js",
